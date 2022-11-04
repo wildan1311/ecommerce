@@ -314,7 +314,7 @@
         </a>
     </div>
     </div>
-    <a href="" class="brand-btn">
+    <a href="/shop" class="brand-btn">
     See More
     </a>
 </div>

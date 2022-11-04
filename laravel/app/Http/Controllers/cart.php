@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\beli;
+use App\Models\post_barang;
+use Illuminate\Support\Facades\Auth;
 
 class cart extends Controller
 {
@@ -13,7 +16,12 @@ class cart extends Controller
      */
     public function index()
     {
-        return view('cart', ['title' => 'cart']);
+        $barang = beli::where('id_user', '=', 1);
+        $barang->dd();
+        return view('cart', [
+            'title' => 'cart',
+            'barang' => $barang,
+        ]);
     }
 
     /**
@@ -34,7 +42,17 @@ class cart extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_barang' => 'required',
+            'jumlah' => 'required',
+        ]);
+
+        $beli = new beli();
+        $beli->id_barang = $request->id_barang;
+        $beli->jumlah = $request->jumlah;
+        $beli->id_user = auth()->user()->id;
+        $beli->save();
+        return redirect('/shop');
     }
 
     /**

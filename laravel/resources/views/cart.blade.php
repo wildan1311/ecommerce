@@ -1,8 +1,8 @@
 @extends('index')
 
 @section('content')
-
-    <div class="untree_co-section before-footer-section">
+    
+    <div class="untree_co-section before-footer-section mt-5">
     <div class="container">
     <div class="row mb-5">
     <form class="col-md-12" method="post">
@@ -18,30 +18,34 @@
         <th class="product-remove">Remove</th>
         </tr>
     </thead>
-
-    <tr>
-        <td class="product-thumbnail">
-            <img src="images/product-1.png" alt="Image" class="img-fluid">
-        </td>
-        <td class="product-name">
-            <h2 class="h5 text-black">Product 1</h2>
-        </td>
-        <td>$49.00</td>
-        <td>
-            <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-            </div>
-            <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-            <div class="input-group-append">
-                <button class="btn btn-outline-black increase" type="button">&plus;</button>
-            </div>
-            </div>
-
-        </td>
-        <td>$49.00</td>
-        <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-        </tr>
+    <tbody>
+        @forelse ($barang as $item)
+        <tr>
+            <td class="product-thumbnail">
+                <img src="{{asset('template/images/')}}" alt="Image" class="img-fluid">
+            </td>
+            <td class="product-name">
+                <h2 class="h5 text-black">{{$item->id_user}}</h2>
+            </td>
+            <td>$49.00</td>
+            <td>
+                <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+                </div>
+                <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-black increase" type="button">&plus;</button>
+                </div>
+                </div>
+    
+            </td>
+            <td>$49.00</td>
+            <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+            </tr>
+        @empty
+            KOK GAADA
+        @endforelse
     </tbody>
     </table>
     </div>

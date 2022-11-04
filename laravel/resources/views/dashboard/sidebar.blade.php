@@ -59,10 +59,10 @@
                 <span class="right badge badge-danger">New</span>
                 </p>
             </a> --}}
-            <a href="post/create" class="nav-link">
+            <a href="/post" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
-                    Tambah Barang
+                    Barang
                 </p>
             </a>
             </li>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\post_barang;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 
 class PostController extends Controller
 {
@@ -14,8 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('dashboard.post.create', [
-            'notif' => 'berhasil'
+        $barang = post_barang::all();
+        return view('dashboard.post.barang', [
+            'barang' => $barang,
         ]);
     }
 
@@ -70,7 +73,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        
+        $barang = post_barang::find($id);
+        return response()->json($barang);
     }
 
     /**
@@ -93,7 +97,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -104,6 +108,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = post_barang::find($id);
+        
+        $path = 'template/images';
+        File::delete($path, $barang->gambar);
+
+        $barang->delete();
+        return redirect('/post');
     }
 }

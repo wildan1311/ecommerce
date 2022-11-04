@@ -48,5 +48,13 @@ Route::get('/shop', function(){
         'title' => 'shop'
     ]);
 });
+Route::get('/create_post', function(){
+    return view('dashboard.post.create', [
+        'notif' => ''
+    ]);
+});
 
-Route::resource('cart', cart::class, ['title' => 'cart']);
+
+Route::resource('cart', cart::class, [
+    'title' => 'cart',
+])->middleware('auth');

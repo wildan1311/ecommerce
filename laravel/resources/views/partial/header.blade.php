@@ -94,5 +94,11 @@
                 $('#home').addClass('active');
             });
         </script>
+    @elseif ($title == 'shop')
+        <script>
+            $(function() {
+                $('#shop').addClass('active');
+            });
+        </script>
     @endif
 @endpush
