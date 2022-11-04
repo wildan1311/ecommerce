@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->integer('harga');
             $table->integer('jumlah');
+            $table->string('gambar');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
