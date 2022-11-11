@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\beli;
+use Illuminate\Support\Facades\DB;
 use App\Models\post_barang;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use Illuminate\Support\Facades\Auth;
 
 class cart extends Controller
@@ -16,11 +19,18 @@ class cart extends Controller
      */
     public function index()
     {
-        $barang = beli::where('id_user', '=', 1);
-        $barang->dd();
+        $cart = DB::table('beli')
+            ->join('barang', 'beli.id_barang', '=', 'barang.id')
+            ->select('barang.gambar', 'barang.name', 'barang.harga', 'beli.jumlah')
+            ->where([
+                ['beli.id_user','=',auth()->user()->id],
+                ['beli.status','=','pending'],
+            ])
+            ->get();
         return view('cart', [
             'title' => 'cart',
-            'barang' => $barang,
+            'cart' => $cart,
+            'total'=> '0',
         ]);
     }
 
@@ -46,7 +56,6 @@ class cart extends Controller
             'id_barang' => 'required',
             'jumlah' => 'required',
         ]);
-
         $beli = new beli();
         $beli->id_barang = $request->id_barang;
         $beli->jumlah = $request->jumlah;
@@ -86,7 +95,10 @@ class cart extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('beli')
+            ->whereIn('id', json_decode($id))
+            ->update(['status'=>'paid']);
+        return redirect('/thankyou');
     }
 
     /**

@@ -4,6 +4,7 @@ use App\Http\Controllers\cart;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Models\post_barang;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,25 @@ Route::get('/create_post', function(){
     ]);
 });
 
+Route::resource('cart', cart::class)->middleware('auth');
 
-Route::resource('cart', cart::class, [
-    'title' => 'cart',
-])->middleware('auth');
+Route::get('/checkout', function () {
+    $cart = DB::table('beli')
+            ->join('barang', 'beli.id_barang', '=', 'barang.id')
+            ->select('barang.gambar', 'barang.name', 'barang.harga', 'beli.*')
+            ->where([
+                ['beli.id_user','=',auth()->user()->id],
+                ['beli.status', '=', 'pending']    
+            ])
+            ->get();
+    return view('checkout',[
+        'title' => 'checkout',
+        'cart' => $cart,
+    ]);
+});
+
+Route::get('/thankyou', function(){
+    return view('thankyou', [
+        'title' => 'thankyou',
+    ]);
+});
