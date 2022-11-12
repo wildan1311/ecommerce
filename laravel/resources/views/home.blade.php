@@ -207,35 +207,6 @@
 
 <!-- discount section -->
 
-<section class="discount_section  layout_padding">
-<div class="container">
-    <div class="row">
-    <div class="col-md-6">
-        <div class="detail-box">
-        <h2>
-            The Latest Collection
-        </h2>
-        <h2 class="main_heading">
-            50% DISCOUNT
-        </h2>
-
-        <div class="">
-            <a href="">
-            Buy Now
-            </a>
-        </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="img-box">
-        <img src="images/discount-img.png" alt="">
-        </div>
-    </div>
-    </div>
-</div>
-</section>
-
-
 <!-- end discount section -->
 
 <!-- brand section -->
@@ -248,74 +219,28 @@
     </h2>
     </div>
     <div class="brand_container layout_padding2">
-    <div class="box">
-        <a href="">
-        <div class="new">
-            <h5>
-            New
-            </h5>
-        </div>
-        <div class="img-box">
-            <img src="images/slider-img.png" alt="">
-        </div>
-        <div class="detail-box">
-            <h6 class="price">
-            $100
-            </h6>
-            <h6>
-            Chair
-            </h6>
-        </div>
-        </a>
-    </div>
-    <div class="box">
-        <a href="">
-        <div class="img-box">
-            <img src="images/slider-img.png" alt="">
-        </div>
-        <div class="detail-box">
-            <h6 class="price">
-            $100
-            </h6>
-            <h6>
-            Chair
-            </h6>
-        </div>
-        </a>
-    </div>
-    <div class="box">
-        <a href="">
-        <div class="img-box">
-            <img src="images/slider-img.png" alt="">
-        </div>
-        <div class="detail-box">
-            <h6 class="price">
-            $100
-            </h6>
-            <h6>
-            Chair
-            </h6>
-        </div>
-        </a>
-    </div>
-    <div class="box">
-        <a href="">
-        <div class="img-box">
-            <img src="images/slider-img.png" alt="">
-        </div>
-        <div class="detail-box">
-            <h6 class="price">
-            $100
-            </h6>
-            <h6>
-            Chair
-            </h6>
-        </div>
-        </a>
-    </div>
+        @forelse ($barang as $item)
+            <div class="box">
+                <a href="/shop">
+                <div class="img-box">
+                    <img src="{{asset('template/images/'.$item->gambar)}}" alt="">
+                </div>
+                <div class="detail-box">
+                    <h6 class="price">
+                    {{$item->harga}}
+                    </h6>
+                    <h6>
+                    {{$item->name}}
+                    </h6>
+                </div>
+                </a>
+            </div>
+        @empty
+            
+        @endforelse
     </div>
     <a href="/shop" class="brand-btn">
-    See More
+        See More
     </a>
 </div>
 </section>

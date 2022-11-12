@@ -18,8 +18,13 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', function () {
+    $barang = DB::table('barang')
+            ->skip(0)
+            ->take(4)
+            ->get();
     return view('home',[
-        'title' => 'home'
+        'title' => 'home',
+        'barang'=>$barang,
     ]);
 });
 
@@ -28,12 +33,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-
-Route::get('/admin', function () {
-    return view('dashboard.admin');
-})->middleware('admin');
-
-Route::resource('post', PostController::class);
 
 Route::get('/about', function(){
     return view('about', [
@@ -49,31 +48,39 @@ Route::get('/shop', function(){
         'title' => 'shop'
     ]);
 });
-Route::get('/create_post', function(){
-    return view('dashboard.post.create', [
-        'notif' => ''
-    ]);
-});
-
-Route::resource('cart', cart::class)->middleware('auth');
-
-Route::get('/checkout', function () {
-    $cart = DB::table('beli')
-            ->join('barang', 'beli.id_barang', '=', 'barang.id')
-            ->select('barang.gambar', 'barang.name', 'barang.harga', 'beli.*')
-            ->where([
-                ['beli.id_user','=',auth()->user()->id],
-                ['beli.status', '=', 'pending']    
-            ])
-            ->get();
-    return view('checkout',[
-        'title' => 'checkout',
-        'cart' => $cart,
-    ]);
-});
-
 Route::get('/thankyou', function(){
     return view('thankyou', [
         'title' => 'thankyou',
     ]);
+});
+
+// middleware
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('dashboard.admin');
+    });
+
+    Route::resource('post', PostController::class);
+
+    Route::get('/create_post', function(){
+        return view('dashboard.post.create', [
+            'notif' => ''
+        ]);
+    });
+    Route::resource('cart', cart::class);
+    
+    Route::get('/checkout', function () {
+        $cart = DB::table('beli')
+                ->join('barang', 'beli.id_barang', '=', 'barang.id')
+                ->select('barang.gambar', 'barang.name', 'barang.harga', 'beli.*')
+                ->where([
+                    ['beli.id_user','=',auth()->user()->id],
+                    ['beli.status', '=', 'pending']    
+                ])
+                ->get();
+        return view('checkout',[
+            'title' => 'checkout',
+            'cart' => $cart,
+        ]);
+    });
 });
