@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\beli;
+use App\Models\id_update;
 use Illuminate\Support\Facades\DB;
 use App\Models\post_barang;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Support\Facades\Auth;
+
 
 class cart extends Controller
 {
@@ -95,9 +97,16 @@ class cart extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('beli')
-            ->whereIn('id', json_decode($id))
-            ->update(['status'=>'paid']);
+        $request->session()->put('id', $id);
+        id_update::$id = $id;
+        id_update::$req = $request;
+        // session_start();
+        // $_SESSION['id'] = $id;
+        // $_SESSION['req'] = $request;
+        // dd(id_update::$id);
+        // DB::table('beli')
+        //     ->whereIn('id', json_decode($id))
+        //     ->update(['status'=>'paid']);
         return redirect('/thankyou');
     }
 

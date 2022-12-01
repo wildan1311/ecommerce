@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\post_barang;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PostController extends Controller
 {
@@ -97,7 +98,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $barang = post_barang::find($id);
+
+        $barang->name = $request->name;
+        $barang->deskripsi = $request->deskripsi;
+        $barang->jumlah = $request->jumlah;
+        $barang->harga = $request->harga;
+        $barang->save();
+
+        return redirect('/post');
     }
 
     /**
@@ -113,6 +122,7 @@ class PostController extends Controller
         $path = 'template/images';
         File::delete($path, $barang->gambar);
 
+        // Alert::question('Yakin akan menghapus data ?', 'Question Message');
         $barang->delete();
         return redirect('/post');
     }

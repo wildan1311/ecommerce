@@ -7,14 +7,19 @@
 
 <!-- Google Font: Source Sans Pro -->
 @stack('toastcss')
+@stack('datatables')
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{asset('dashboard/plugins/fontawesome-free/css/all.min.css')}}">
 <!-- Theme style -->
 <link rel="stylesheet" href="{{asset('dashboard/dist/css/adminlte.min.css')}}">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.com/libraries/Chart.js"></script>
 @stack('button')
 </head>
 <body class="hold-transition sidebar-mini">
+    @include('sweetalert::alert')
     <!-- Site wrapper -->
     <div class="wrapper">
     <!-- Navbar -->
@@ -59,6 +64,7 @@
     </div>
     <!-- ./wrapper -->
 
+    <script src="/js/app.js"></script>
     <!-- jQuery -->
     <script src="{{asset('dashboard/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
@@ -68,5 +74,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('dashboard/dist/js/demo.js')}}"></script>
     @stack('toast')
+    @stack('modal')
+    @stack('script_datatables')
 </body>
 </html>

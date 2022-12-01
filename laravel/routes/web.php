@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\cart;
+use App\Http\Controllers\generatePDF;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Models\beli;
 use App\Models\post_barang;
 use Illuminate\Support\Facades\DB;
 
@@ -52,12 +54,30 @@ Route::get('/thankyou', function(){
     return view('thankyou', [
         'title' => 'thankyou',
     ]);
-});
+})->name('thankyou');
 
 // middleware
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin', function () {
-        return view('dashboard.admin');
+        $transaksi = DB::table('beli')
+        ->join('users', 'beli.id_user', '=', 'users.id')
+        ->join('barang', 'beli.id_barang', '=', 'barang.id')
+        ->select(['beli.id', 'users.name AS nama', 'barang.name', 'beli.jumlah', 'beli.status'])
+        ->get();
+
+        $dataRekap = DB::table('beli')
+                    ->select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy("month_name")
+                    ->orderBy('created_at')
+                    ->pluck('count', 'month_name');
+        $labels = $dataRekap->keys();
+        $data = $dataRekap->values();
+        // dd(compact('labels', 'data'));
+        return view('dashboard.main', [
+            'transaksi'=>$transaksi,
+            'charts' => compact('labels', 'data'),
+        ]);
     });
 
     Route::resource('post', PostController::class);
@@ -84,3 +104,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ]);
     });
 });
+
+Route::get('/coba', [generatePDF::class, 'coba']);
+
+Route::get('generate-pdf', [generatePDF::class, 'generatePDF'])->name('pdf');

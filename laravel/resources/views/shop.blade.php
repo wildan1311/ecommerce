@@ -19,7 +19,7 @@
                             </div>
                             <div class="detail-box">
                                 <h6 class="price">
-                                    {{$item->harga}}
+                                    {{"Rp".number_format($item->harga)}}
                                 </h6>
                                 <h6>
                                     {{$item->name}}

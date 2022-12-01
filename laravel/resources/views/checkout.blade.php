@@ -144,13 +144,13 @@
                             </div>
                         </div>
 
-                        <form action="/cart/{{json_encode($array_id)}}" method="post">
-                            @csrf
-                            @method('PUT')
-                            <div class="form-group">
-                                <button class="btn btn-dark btn-lg py-3 btn-block" type="submit">Place Order</button>
-                            </div>
-                        </form>
+                            <form action="/cart/{{json_encode($array_id)}}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <button class="btn btn-dark btn-lg py-3 btn-block" type="submit">Place Order</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     </div>
